@@ -13,13 +13,28 @@ impl<P: Point + Copy> Bezier<P> {
         }
     }
 
-    pub fn iter(&self, step: f32) -> Iter<P> {
-        Iter::new(&self.curve, step)
+    /// Returns a point in this curve.
+    pub fn point(&self, point: usize) -> Option<P> {
+        self.points.get(point)
     }
 
     /// Adds a point to the bezier curve.
     pub fn add_point(&mut self, point: P) {
         self.points.push(point)
+    }
+
+    pub fn set_point(&mut self, i: usize, point: P) -> bool {
+        if let Some(p) = self.points.get_mut(i) {
+            *p = point;
+            return true;
+        }
+
+        false
+    }
+
+    /// Returns an iterator that steps through the curve in `step`-sized segments.
+    pub fn iter(&self, step: f32) -> Iter<P> {
+        Iter::new(&self.curve, step)
     }
 
     /// Gets the order of this bezier curve. If the curve has less than two points,
