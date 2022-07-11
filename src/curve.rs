@@ -1,4 +1,46 @@
+use std::fmt::Error;
 use crate::point::Point;
+use crate::TwoDimensionalPoint;
+
+pub struct QuadraticCurve {
+    curve: Curve<TwoDimensionalPoint>,
+}
+
+impl QuadraticCurve {
+    pub fn new(p0: TwoDimensionalPoint, p1: TwoDimensionalPoint, p2: TwoDimensionalPoint, p3: TwoDimensionalPoint) -> Self {
+        let mut curve = Curve::<TwoDimensionalPoint>::new();
+
+        curve.add_point(p0);
+        curve.add_point(p1);
+        curve.add_point(p2);
+        curve.add_point(p3);
+
+        Self {
+            curve
+        }
+    }
+
+    pub fn iter(&self, step: f32) -> Iter<TwoDimensionalPoint> {
+        self.curve.iter(step)
+    }
+
+    pub fn set_point(&mut self, i: usize, point: TwoDimensionalPoint) -> Result<(), String> {
+        // TODO: Actual errors
+        if !self.curve.set_point(i, point) {
+            Err(format!("could not set point"))
+        }
+
+        Ok(())
+    }
+
+    pub fn point(&self, point: usize) -> Result<TwoDimensionalPoint, String> {
+        self.curve.point(point).ok_or(format!("could not get point"))
+    }
+
+    pub fn get_point(&self, t: f32) -> TwoDimensionalPoint {
+        self.get_point(t)
+    }
+}
 
 /// Represents an nth-order bezier curve.
 #[derive(Clone, Debug)]
@@ -115,7 +157,7 @@ impl<P: Point + Copy> Iterator for Iter<P> {
 
 #[cfg(test)]
 mod tests {
-    use crate::bezier::Curve;
+    use crate::curve::Curve;
     use crate::TwoDimensionalPoint;
 
     #[test]

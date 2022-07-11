@@ -1,6 +1,6 @@
 use crate::point::TwoDimensionalPoint;
 
-mod bezier;
+mod curve;
 mod point;
 
 #[cfg(test)]
