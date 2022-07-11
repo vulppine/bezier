@@ -2,13 +2,13 @@ use crate::point::Point;
 
 /// Represents an nth-order bezier curve.
 #[derive(Clone, Debug)]
-pub struct Bezier<P: Point + Copy> {
+pub struct Curve<P: Point + Copy> {
     points: Vec<P>
 }
 
-impl<P: Point + Copy> Bezier<P> {
+impl<P: Point + Copy> Curve<P> {
     pub fn new() -> Self {
-        Bezier {
+        Curve {
             points: Vec::new()
         }
     }
@@ -77,13 +77,13 @@ impl<P: Point + Copy> Bezier<P> {
 }
 
 pub struct Iter<'a, P: Point + Copy> {
-    curve: &'a Bezier<P>,
+    curve: &'a Curve<P>,
     cur: f32,
     step: f32
 }
 
 impl<'a, P: Point + Copy> Iter<P> {
-    fn new(curve: &'a Bezier<P>, step: f32) -> Self {
+    fn new(curve: &'a Curve<P>, step: f32) -> Self {
         Iter {
             curve,
             cur: 0.0,
@@ -115,12 +115,12 @@ impl<P: Point + Copy> Iterator for Iter<P> {
 
 #[cfg(test)]
 mod tests {
-    use crate::bezier::Bezier;
+    use crate::bezier::Curve;
     use crate::TwoDimensionalPoint;
 
     #[test]
     fn test_get_point() {
-        let mut curve = Bezier::<TwoDimensionalPoint>::new();
+        let mut curve = Curve::<TwoDimensionalPoint>::new();
         curve.add_point(TwoDimensionalPoint::new(0.0, 0.0));
         curve.add_point(TwoDimensionalPoint::new(0.5, 0.5));
         curve.add_point(TwoDimensionalPoint::new(1.0, 0.0));
